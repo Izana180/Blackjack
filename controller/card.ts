@@ -1,6 +1,9 @@
 export type Suit = "S" | "H" | "D" | "C";
 export type Rank = "A" | "2" | "3" | "4" | "5" | "6" | "7" | "8" | "9" | "10" | "J" | "Q" | "K";
 
+export const ALL_SUITS: Suit[] = ["S", "H", "D", "C"];
+export const ALL_RANKS: Rank[] = ["A", "2", "3", "4", "5", "6", "7", "8", "9", "10", "J", "Q", "K"];
+
 export class Card{
     private readonly suit : Suit;
     private readonly rank : Rank;
