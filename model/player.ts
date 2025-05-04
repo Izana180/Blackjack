@@ -5,8 +5,8 @@ export type playerType = "ai" | "user" | "house";
 
 export class Player{
     private readonly name: string;
-    private readonly type: playerType;
-    private readonly chips: number | null;
+    private type: playerType;
+    private chips: number | null;
     private bet: number = 0;
     private winAmount: number = 0;
     private gameStatus: string = "betting";
@@ -18,7 +18,7 @@ export class Player{
         this.chips = chips;
     }
 
-    public promptPlayer(userData: Number | { action: playerAction; amount: Number } | null): GameDecision{
+    public promptPlayer(userData: number | { action: playerAction; amount: number } | null): GameDecision{
         if(this.type === "user"){
             if(typeof userData === "object" && userData != null && "action" in userData && "amount" in userData){
                 return new GameDecision(userData.action, userData.amount);
@@ -65,5 +65,37 @@ export class Player{
 
     public getChips(): number{
         return this.chips;
+    }
+
+    public applyDecision(decision: GameDecision): void{
+        const action = decision.getAction();
+        const amount = decision.getAmount();
+
+        switch(action){
+            case "bet":
+                this.bet = amount;
+                this.chips -= amount;
+                this.gameStatus = "acting";
+                break;
+            case "hit":
+                this.gameStatus = "done";
+                break;
+            case "stand":
+                this.gameStatus = "done";
+                break;
+            case "surrender":
+                this.chips -= Math.floor(this.bet / 2);
+                this.gameStatus = "done";
+                break;
+            case "double":
+                if(this.chips >= this.bet){
+                    this.chips -= this.bet;
+                    this.bet *= 2;
+                    this.gameStatus = "done";
+                }
+                break;
+            default:
+                throw new Error("invalid action");
+        }
     }
 }
