@@ -9,4 +9,11 @@ export class GameDecision{
         this.action = action;
         this.amount = amount;
     }
+
+    public getAction(){
+        return this.action;
+    }
+    public getAmount(){
+        return this.amount;
+    }
 }
