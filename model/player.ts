@@ -75,6 +75,10 @@ export class Player{
         return this.type;
     }
 
+    public getName(){
+        return this.name;
+    }
+
     public applyDecision(decision: GameDecision): void{
         const action = decision.getAction();
         const amount = decision.getAmount();
