@@ -67,6 +67,10 @@ export class Player{
         return this.chips;
     }
 
+    public getGameStatus(){
+        return this.gameStatus;
+    }
+
     public applyDecision(decision: GameDecision): void{
         const action = decision.getAction();
         const amount = decision.getAmount();
