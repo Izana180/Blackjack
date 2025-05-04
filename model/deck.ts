@@ -1,4 +1,4 @@
-import { Card, ALL_SUITS, ALL_RANKS } from "@controller/card";
+import { Card, ALL_SUITS, ALL_RANKS } from "@model/card";
 
 export class Deck{
     private cards: Card[] = [];
