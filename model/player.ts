@@ -98,4 +98,12 @@ export class Player{
                 throw new Error("invalid action");
         }
     }
+
+    public clearHand(): void{
+        this.hand = [];
+    }
+
+    public clearBet(): void{
+        this.bet = 0;
+    }
 }
