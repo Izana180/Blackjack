@@ -1,13 +1,19 @@
 {
     "compilerOptions": {
         "target": "ES2024",
-        "module": "CommonJS",
+        "module": "ESNext",
         "lib": ["ES2024", "DOM"],
         "baseUrl": ".",
+        "outDir": "./view/js",
+        "rootDir": ".",
         "paths": {
             "@model/*": ["model/*"],
             "@view/*": ["view/*"],
             "@controller/*": ["controller/*"]
         }
-    }
+    },
+    "include": [
+        "controller/**/*",
+        "model/**/*"
+    ]
 }
