@@ -1,6 +1,5 @@
 import { Player } from "@model/player";
 import { Deck } from "@model/deck";
-import { Card } from "@model/card";
 import { GameDecision } from "@model/gamedecision";
 
 export type phaseType = "betting" | "acting" | "evaluatingWinners" | "Gameover";
@@ -65,5 +64,54 @@ export class Table{
 
     public getTurnCount(): number{
         return this.turnCounter;
+    }
+
+    public isLastPlayer(): boolean{
+        return (this.turnCounter + 1) % this.players.length === 0;
+    }
+
+    public onFirstPlauer(): boolean{
+        return this.turnCounter % this.players.length === 0;
+    }
+
+    public allPlayerActionsResolved(): boolean{
+        return this.players.every(player => {
+            const status = player.getGameStatus();
+            return ["broken", "bust", "stand", "surrender"].indexOf(status) !== -1;
+        })
+    }
+
+    public bjEvaluateAndGetRoundResults(): string{
+        const house = this.players.find(p => p.getType() === "house");
+        const houseScore = house?.getHandScore() ?? 0;
+
+        const resultMessages: string[] = [];
+
+        for(const player of this.players){
+            if(player.getType() === "house") continue;
+            const score = player.getHandScore();
+            const status = player.getGameStatus();
+
+            if(["bust", "surrender", "broken"].includes(status)){
+                resultMessages.push(`${player.getName()} の負け(${status})`)
+                continue;
+            }
+
+            if(score > houseScore || houseScore > 21){
+                player.winChips(player.getBet() * 2);
+                resultMessages.push(`${player.getName()}の勝ち!(${score})`);
+            }
+            else if(score === houseScore){
+                player.winChips(player.getBet());
+                resultMessages.push(`チョップ(${score})`);
+            }
+            else{
+                resultMessages.push(`${player.getName()}の負け(${score})`);
+            }
+        }
+
+        const summary = resultMessages.join("\n");
+        this.resultsLog.push(summary);
+        return summary;
     }
 }
