@@ -79,6 +79,19 @@ export class Player{
         return this.name;
     }
 
+    public getBet(){
+        return this.bet;
+    }
+
+    public getWinAmount(){
+        return this.winAmount;
+    }
+
+    public winChips(chips: number): number{
+        this.chips += chips;
+        return this.chips;
+    }
+
     public applyDecision(decision: GameDecision): void{
         const action = decision.getAction();
         const amount = decision.getAmount();
